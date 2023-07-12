@@ -134,6 +134,7 @@ def extract_all_questions(s3_conn_id, s3_bucket, token_api, data_interval_end, s
             if response:
                 df = decipher.create_dataframe(response)
                 df['survey_id'] = survey_id
+                df['question_id'] = df['label']
                 df['current_ts'] = datetime.now()
                 dfs.append(df)
 

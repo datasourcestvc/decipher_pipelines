@@ -18,7 +18,7 @@ with DAG(
         description='Perform end to end using airflow',
         start_date=pendulum.datetime(2023, 1, 1, tz="UTC"),
         catchup=False,
-        dagrun_timeout=datetime.timedelta(minutes=5),
+        dagrun_timeout=datetime.timedelta(minutes=15),
         tags=['decipher-pipeline'],
 ) as dag:
     aws_conn_id = "aws_conn"

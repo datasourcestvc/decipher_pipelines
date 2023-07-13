@@ -15,65 +15,7 @@ from datetime import datetime
 
 
 
-'''def extract_all_responses(s3_conn_id,s3_bucket,token_api,data_interval_end,scope="all",start_date='2023-01-01T00:00Z',end_date='2023-07-09T00:00Z')->list:
-    """
-    downlaod data from API key 
-    push data to S3 bucket
-    """
-    try:
-        logging.info('extracting data')
-        decipher = decipher_interface(token_api)
-        #surveys = decipher.get_surveys(scope="all")
-        surveys = decipher.get_surveys(scope)
-
-        res = None
-        #processed_sids =  []
-        for survey in surveys:
-            #print(sid)
-            sid = survey["path"]
-            #if sid in processed_sids:
-            #    continue
-            #processed_sids.append(sid)
-
-            survey_data = decipher.get_survey_data( sid, start=start_date, end=end_date)
-            #print(survey_data)
-            df = None
-            if survey_data:
-                df = decipher.create_dataframe(survey_data)
-                #print(df)
-                df['survey_id'] = sid
-                df['current_ts'] = datetime.now()
-            
-        
-                if df is None or df.shape[0] == 0:
-                    continue 
-                
-                if res is None:
-                    res = df
-                else:
-                    #print(df.shape)
-                    res = pd.concat([res, df], axis = 0)
-                    #res = res.melt(id_vars=['uuid','survey_id', 'start_date', 'current_ts']).rename(columns={'variable': 'question_id', 'value': 'answer_id'})
-                    #res = res[res['answer_id'].notnull()]
-        logging.info('successfully downloaded data, cols:')
-        
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_parquet_file:
-            res.to_parquet(temp_parquet_file.name, engine='pyarrow')
-            temp_parquet_file_path = temp_parquet_file.name
-
-        expected_new_key = f'responses/{data_interval_end}/{data_interval_end}.parquet'
-        logging.info(f'Uploading file to S3 with key: {expected_new_key}')
-        s3_hook = S3Hook(aws_conn_id=s3_conn_id)
-        s3_hook.load_file(filename=temp_parquet_file_path, bucket_name=s3_bucket, key=expected_new_key, replace=True)
-        os.remove(temp_parquet_file_path)
-        return expected_new_key
-    except Exception as e:
-        logging.error(f'failed to load data into s3 {e}')
-        raise'''
-
-
-
-'''def extract_all_responses(s3_conn_id,s3_bucket,token_api,data_interval_end,scope="all",start_date='2023-07-01T00:00Z',end_date='2023-07-09T00:00Z')->list:
+'''def extract_all_responses(s3_conn_id,s3_bucket,token_api,data_interval_end,scope="all",start_date='2022-01-01T00:00Z',end_date='2023-07-13T00:00Z')->list:
     """
     downlaod data from API key 
     push data to S3 bucket
@@ -175,3 +117,5 @@ def extract_all_responses(s3_conn_id, s3_bucket, token_api, data_interval_end, s
     except Exception as e:
         logging.error(f'failed to load data into s3 {e}')
         raise
+
+
